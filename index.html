@@ -62,8 +62,17 @@ input[type=text],input[type=date]{
 }
 input::placeholder{color:var(--sub)}
 input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(24,24,27,.12)}
-.row{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:480px){.row{grid-template-columns:1fr 1fr}}
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 16px;
+  width: 100%;
+}
+
+.row > div {
+  min-width: 0;
+}
 .lbl{font-size:12px;font-weight:600;color:var(--sub);margin:0 0 7px 8px;display:block}
 .seg{display:flex;gap:6px;padding:4px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--border);height:50px}
 .seg label{flex:1}
