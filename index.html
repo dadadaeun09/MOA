@@ -104,15 +104,15 @@ li.done .rank{font-size:13px;letter-spacing:0;color:var(--sub)}
 <main>
   <div class="brand">
     <h1>moa<i>.</i></h1>
-    <p class="tag">흩어진 일정을<br>한곳에 모아요</p>
+    <p class="tag">simple & easy<br>schedule manager</p>
   </div>
 
   <form class="glass" id="f" autocomplete="off">
-    <div><label class="lbl" for="title">일정</label>
-      <input type="text" id="title" placeholder="무슨 일정인가요?" maxlength="60"></div>
+    <div><label class="lbl" for="title">schedule</label>
+      <input type="text" id="title" placeholder="write your schedule" maxlength="60"></div>
     <div class="row">
-      <div><label class="lbl" for="due">마감일</label><input type="date" id="due"></div>
-      <div><span class="lbl">중요도</span>
+      <div><label class="lbl" for="due">date</label><input type="date" id="due"></div>
+      <div><span class="lbl">importance</span>
         <div class="seg">
           <label><input type="radio" name="imp" value="1"><span>1</span></label>
           <label><input type="radio" name="imp" value="2"><span>2</span></label>
@@ -122,12 +122,12 @@ li.done .rank{font-size:13px;letter-spacing:0;color:var(--sub)}
         </div></div>
     </div>
     <p class="err" id="err"></p>
-    <button class="add" type="submit">일정 추가</button>
+    <button class="add" type="submit">add</button>
   </form>
 
-  <div class="head"><h2>우선순위</h2><small id="cnt"></small></div>
+  <div class="head"><h2>list</h2><small id="cnt"></small></div>
   <ul id="list"></ul>
-  <p class="note">마감이 3일 이내로 다가오면 순위가 올라가요<br>일정은 이 기기의 브라우저에 자동 저장돼요</p>
+  <p class="note">날짜가 3일 이내로 다가오면 순위가 올라가요<br>일정은 이 기기의 브라우저에 자동 저장돼요</p>
 </main>
 
 <script>
@@ -145,7 +145,7 @@ function daysLeft(t){
   return Math.round((new Date(y, m-1, d) - todayMidnight()) / 864e5);
 }
 const score = t => (daysLeft(t) <= 3 ? 5 : 1) + t.importance;
-const dday = n => n === 0 ? 'D-DAY' : n > 0 ? 'D-' + n : 'D+' + (-n) + ' 지남';
+const dday = n => n === 0 ? 'D-DAY' : n > 0 ? 'D-' + n : 'D+' + (-n) ;
 
 function el(tag, cls, text){
   const e = document.createElement(tag);
@@ -159,10 +159,10 @@ function render(){
   const sorted = [...tasks].sort((a,b) =>
     (a.done - b.done) || (score(b) - score(a)) || a.due.localeCompare(b.due));
   const active = tasks.filter(t => !t.done).length;
-  $('cnt').textContent = tasks.length ? active + '개 남음' : '';
+  $('cnt').textContent = tasks.length ? active  : '';
 
   if (!sorted.length){
-    list.appendChild(el('li', 'glass empty', '아직 일정이 없어요. 첫 일정을 추가해 보세요 ✨'));
+    list.appendChild(el('li', 'glass empty', 'no schedule. add your schedule now.'));
     return;
   }
   let rank = 0;
@@ -170,19 +170,19 @@ function render(){
     if (!t.done) rank++;
     const n = daysLeft(t);
     const li = el('li', 'glass' + (t.done ? ' done' : rank === 1 ? ' top' : ''));
-    li.appendChild(el('div', 'rank', t.done ? '완료' : rank));
+    li.appendChild(el('div', 'rank', t.done ? 'clear' : rank));
 
     const info = el('div', 'info');
-    if (!t.done && rank === 1) info.appendChild(el('span', 'now', '지금 가장 중요해요'));
+    if (!t.done && rank === 1) info.appendChild(el('span', 'now', 'most important'));
     info.appendChild(el('div', 't', t.title));
     const m = el('div', 'm');
-    m.append(el('span', 'pill' + (n <= 3 ? ' urgent' : ''), dday(n)), el('span', '', t.due + ' · 중요도 ' + t.importance));
+    m.append(el('span', 'pill' + (n <= 3 ? ' urgent' : ''), dday(n)), el('span', '', t.due + ' · importance ' + t.importance));
     info.appendChild(m);
     li.appendChild(info);
 
     const c = el('input', 'chk'); c.type = 'checkbox'; c.checked = t.done;
     c.onchange = () => { t.done = c.checked; save(); render(); };
-    const x = el('button', 'del', '✕'); x.type = 'button'; x.setAttribute('aria-label', '삭제');
+    const x = el('button', 'del', '✕'); x.type = 'button'; x.setAttribute('aria-label', 'delete');
     x.onclick = () => { tasks = tasks.filter(k => k.id !== t.id); save(); render(); };
     li.append(c, x);
     list.appendChild(li);
