@@ -56,9 +56,21 @@ h1 i{font-style:normal;color:var(--accent)}
   border-radius:28px;
 }
 form{padding:20px;display:grid;gap:14px}
+
 input[type=text],input[type=date]{
-  width:100%;height:50px;padding:0 18px;border-radius:999px;border:1px solid var(--border);
-  background:var(--glass-strong);color:var(--text);font:inherit;font-size:15px;outline:none;transition:.15s;
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  height:50px;
+  padding:0 18px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:var(--glass-strong);
+  color:var(--text);
+  font:inherit;
+  font-size:15px;
+  outline:none;
+  transition:.15s;
 }
 input::placeholder{color:var(--sub)}
 input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(24,24,27,.12)}
@@ -74,7 +86,18 @@ input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(24,24,27,.12)}
   min-width: 0;
 }
 .lbl{font-size:12px;font-weight:600;color:var(--sub);margin:0 0 7px 8px;display:block}
-.seg{display:flex;gap:6px;padding:4px;border-radius:999px;background:var(--glass-strong);border:1px solid var(--border);height:50px}
+
+.seg{
+  display:flex;
+  gap:6px;
+  padding:4px;
+  border-radius:999px;
+  background:var(--glass-strong);
+  border:1px solid var(--border);
+  height:50px;
+  width:100%;
+  min-width:0;
+}
 .seg label{flex:1}
 .seg input{display:none}
 .seg span{display:grid;place-items:center;height:100%;border-radius:999px;cursor:pointer;font-weight:700;color:var(--sub);transition:.15s}
